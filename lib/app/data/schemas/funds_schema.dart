@@ -10,5 +10,5 @@ class Funds extends Table {
   DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
 
   @override
-  List<String> get customConstraints => ['CHECK (amount > 0)'];
+  List<String> get customConstraints => ['CHECK (amount >= 0)'];
 }

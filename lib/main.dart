@@ -21,7 +21,11 @@ void main() {
       title: "Money Tracker",
       initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,
-      theme: ThemeData(textTheme: GoogleFonts.dmSansTextTheme()),
+      theme: ThemeData(
+        textTheme: GoogleFonts.dmSansTextTheme(),
+        appBarTheme: AppBarTheme(backgroundColor: Colors.grey.shade100),
+        scaffoldBackgroundColor: Colors.grey.shade100,
+      ),
     ),
   );
 }

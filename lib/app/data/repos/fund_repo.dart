@@ -34,8 +34,8 @@ class FundRepo {
     SortBy sortBy = SortBy.name,
   }) {
     final mode = sortOrder == SortOrder.desc
-        ? OrderingMode.asc
-        : OrderingMode.desc;
+        ? OrderingMode.desc
+        : OrderingMode.asc;
 
     return (_db.select(_db.funds)
           ..where(
@@ -77,7 +77,7 @@ class FundRepo {
   }
 
   // DELETE
-  Future<bool> deleteCategory(int id) async {
+  Future<bool> deleteFund(int id) async {
     final row = await (_db.delete(
       _db.funds,
     )..where((tbl) => tbl.id.equals(id))).go();

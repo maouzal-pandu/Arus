@@ -21,5 +21,18 @@ class AppDatabase extends _$AppDatabase {
   );
 
   @override
-  int get schemaVersion => 4;
+  int get schemaVersion => 1;
+
+  @override
+  MigrationStrategy get migration => MigrationStrategy(
+    onCreate: (m) async {
+      await m.createAll();
+    },
+
+    onUpgrade: (m, from, to) async {},
+
+    beforeOpen: (details) async {
+      await customStatement('PRAGMA foreign_keys = ON');
+    },
+  );
 }
