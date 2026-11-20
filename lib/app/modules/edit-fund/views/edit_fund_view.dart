@@ -9,82 +9,137 @@ import '../controllers/edit_fund_controller.dart';
 
 class EditFundView extends GetView<EditFundController> {
   const EditFundView({super.key});
+
+  Future<void> _onBack() async {
+    if (await controller.showExitDialog()) {
+      Get.back();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('AddFundView'), centerTitle: true),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Form(
-            key: controller.formK,
-            child: Column(
-              children: [
-                const SizedBox(height: 32),
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, _) {
+        if (didPop) return;
+        _onBack();
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Row(
+            children: [
+              Expanded(
+                child: GestureDetector(
+                  onTap: _onBack,
+                  behavior: HitTestBehavior.opaque,
+                  child: Align(
+                    alignment: AlignmentGeometry.centerLeft,
+                    child: const Icon(Icons.arrow_back_ios, color: Colors.red),
+                  ),
+                ),
+              ),
 
-                formInputTypeRow<FundType>(controller.type, FundType.values, [
-                  'Cash',
-                  'Cashless',
-                ]),
+              const Text('Edit Fund'),
 
-                const SizedBox(height: 16),
+              const Expanded(child: SizedBox()),
+            ],
+          ),
+          centerTitle: true,
+          automaticallyImplyLeading: false,
+        ),
 
-                formInputFieldCol(
-                  'Title',
-                  TextFormField(
-                    controller: controller.titleC,
-                    decoration: formInputFieldDecoration(),
-                    maxLength: 100,
-                    buildCounter:
-                        (
-                          context, {
-                          required currentLength,
-                          required isFocused,
-                          required maxLength,
-                        }) => Text(
-                          '$currentLength/$maxLength',
-                          style: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 12,
-                            // fontWeight: FontWeight.bold,
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Form(
+              key: controller.formK,
+              child: Column(
+                children: [
+                  const SizedBox(height: 32),
+
+                  formInputFieldCol(
+                    'Title',
+                    TextFormField(
+                      controller: controller.titleC,
+                      decoration: formInputFieldDecoration(),
+                      maxLength: 100,
+                      buildCounter:
+                          (
+                            context, {
+                            required currentLength,
+                            required isFocused,
+                            required maxLength,
+                          }) => Text(
+                            '$currentLength/$maxLength',
+                            style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 12,
+                              // fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                      validator: (value) {
+                        final title = value?.trim();
+
+                        if (title!.isEmpty) {
+                          return 'Field cannot be empty';
+                        }
+
+                        return null;
+                      },
+                    ),
+                  ),
+
+                  formInputTypeRow<FundType>(controller.type, FundType.values, [
+                    'Cash',
+                    'Cashless',
+                  ]),
+
+                  const SizedBox(height: 16),
+
+                  formInputFieldCol(
+                    'Amount',
+                    TextFormField(
+                      controller: controller.amountC,
+                      decoration: formInputFieldDecoration(),
+                      inputFormatters: [InputRupiahFormatter()],
+                      keyboardType: TextInputType.number,
+                      validator: (value) {
+                        if (value == null || value.trim().isEmpty) {
+                          return 'Nominal wajib diisi';
+                        }
+                        final nominal = int.tryParse(value.replaceAll('.', ''));
+                        if (nominal == null) return 'Nominal tidak valid';
+                        if (nominal < 0) return 'Nominal tidak boleh negatif';
+                        return null;
+                      },
+                    ),
+                  ),
+
+                  const SizedBox(height: 40),
+
+                  Align(
+                    alignment: AlignmentGeometry.centerRight,
+                    child: FilledButton(
+                      style: ButtonStyle(
+                        padding: WidgetStatePropertyAll(
+                          EdgeInsetsDirectional.symmetric(horizontal: 40),
+                        ),
+                        backgroundColor: WidgetStatePropertyAll(Colors.blue),
+                        shape: WidgetStatePropertyAll(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadiusGeometry.circular(8),
                           ),
                         ),
-                    validator: (value) {
-                      final title = value?.trim();
-
-                      if (title!.isEmpty) {
-                        return 'Field cannot be empty';
-                      }
-
-                      return null;
-                    },
+                      ),
+                      onPressed: () => controller.editFund(),
+                      child: const Text(
+                        'Update',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
                   ),
-                ),
-
-                formInputFieldCol(
-                  'Amount',
-                  TextFormField(
-                    controller: controller.amountC,
-                    decoration: formInputFieldDecoration(),
-                    inputFormatters: [InputRupiahFormatter()],
-                    keyboardType: TextInputType.number,
-                    validator: (value) {
-                      if (value == null || value.trim().isEmpty) {
-                        return 'Nominal wajib diisi';
-                      }
-                      final nominal = int.tryParse(value.replaceAll('.', ''));
-                      if (nominal == null) return 'Nominal tidak valid';
-                      if (nominal < 0) return 'Nominal tidak boleh negatif';
-                      return null;
-                    },
-                  ),
-                ),
-
-                OutlinedButton(
-                  onPressed: () => controller.editFund(),
-                  child: const Text('Update'),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

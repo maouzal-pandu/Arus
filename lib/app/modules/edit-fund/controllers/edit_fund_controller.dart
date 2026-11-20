@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:money_tracker/app/components/snackbar.dart';
 import 'package:money_tracker/app/data/database.dart';
 import 'package:money_tracker/app/data/repos/fund_repo.dart';
@@ -23,7 +24,38 @@ class EditFundController extends GetxController {
 
     titleC.text = fund.title;
     type.value = fund.type;
-    amountC.text = fund.amount.toString();
+    amountC.text = NumberFormat.decimalPattern('id_ID').format(fund.amount);
+  }
+
+  bool get hasChanges {
+    final currentAmount = int.parse(amountC.text.replaceAll('.', ''));
+
+    return titleC.text.trim() != fund.title ||
+        currentAmount != fund.amount ||
+        type.value != fund.type;
+  }
+
+  Future<bool> showExitDialog() async {
+    if (!hasChanges) return true;
+
+    final result = await Get.dialog<bool>(
+      AlertDialog(
+        title: const Text('Discard changes?'),
+        content: const Text('Your changes have not been saved.'),
+        actions: [
+          TextButton(
+            onPressed: () => Get.back(result: false),
+            child: const Text('Keep editing'),
+          ),
+          TextButton(
+            onPressed: () => Get.back(result: true),
+            child: const Text('Discard', style: TextStyle(color: Colors.red)),
+          ),
+        ],
+      ),
+    );
+
+    return result ?? false;
   }
 
   Future<void> editFund() async {
