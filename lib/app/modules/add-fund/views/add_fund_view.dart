@@ -12,7 +12,7 @@ class AddFundView extends GetView<AddFundController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('AddFundView'), centerTitle: true),
+      appBar: AppBar(title: const Text('Add Fund'), centerTitle: true),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -21,13 +21,6 @@ class AddFundView extends GetView<AddFundController> {
             child: Column(
               children: [
                 const SizedBox(height: 32),
-
-                formInputTypeRow<FundType>(controller.type, FundType.values, [
-                  'Cash',
-                  'Cashless',
-                ]),
-
-                const SizedBox(height: 16),
 
                 formInputFieldCol(
                   'Title',
@@ -61,6 +54,25 @@ class AddFundView extends GetView<AddFundController> {
                   ),
                 ),
 
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  spacing: 8,
+                  children: [
+                    const Text(
+                      'Fund Type',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+
+                    formInputTypeRow<FundType>(
+                      controller.type,
+                      FundType.values,
+                      ['Cash', 'Cashless'],
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: 16),
+
                 formInputFieldCol(
                   'Amount',
                   TextFormField(
@@ -80,9 +92,22 @@ class AddFundView extends GetView<AddFundController> {
                   ),
                 ),
 
-                OutlinedButton(
-                  onPressed: () => controller.createFund(),
-                  child: const Text('Create'),
+                const SizedBox(height: 40),
+
+                Align(
+                  alignment: AlignmentGeometry.centerRight,
+                  child: FilledButton(
+                    style: ButtonStyle(
+                      backgroundColor: WidgetStatePropertyAll(Colors.blue),
+                      shape: WidgetStatePropertyAll(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadiusGeometry.circular(8),
+                        ),
+                      ),
+                    ),
+                    onPressed: () => controller.createFund(),
+                    child: const Text('Create'),
+                  ),
                 ),
               ],
             ),
