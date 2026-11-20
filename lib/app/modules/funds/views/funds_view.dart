@@ -126,7 +126,11 @@ class FundsView extends GetView<FundsController> {
         actions: [
           IconButton(
             onPressed: () => Get.toNamed('/add-fund'),
-            icon: const Icon(Icons.add_rounded),
+            icon: const Icon(
+              Icons.add_rounded,
+              color: Colors.blue,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ],
       ),
@@ -138,8 +142,11 @@ class FundsView extends GetView<FundsController> {
             children: [
               TextButton.icon(
                 onPressed: () => _showFilter(context),
-                label: const Text('Filter'),
-                icon: const Icon(Icons.filter_alt),
+                label: Text(
+                  'Filter',
+                  style: TextStyle(color: Colors.grey.shade700),
+                ),
+                icon: Icon(Icons.filter_alt, color: Colors.grey.shade600),
                 style: ButtonStyle(),
               ),
 

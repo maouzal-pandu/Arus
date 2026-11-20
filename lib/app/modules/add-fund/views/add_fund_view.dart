@@ -98,6 +98,9 @@ class AddFundView extends GetView<AddFundController> {
                   alignment: AlignmentGeometry.centerRight,
                   child: FilledButton(
                     style: ButtonStyle(
+                      padding: WidgetStatePropertyAll(
+                        EdgeInsetsDirectional.symmetric(horizontal: 40),
+                      ),
                       backgroundColor: WidgetStatePropertyAll(Colors.blue),
                       shape: WidgetStatePropertyAll(
                         RoundedRectangleBorder(
@@ -106,7 +109,10 @@ class AddFundView extends GetView<AddFundController> {
                       ),
                     ),
                     onPressed: () => controller.createFund(),
-                    child: const Text('Create'),
+                    child: const Text(
+                      'Create',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ),
               ],

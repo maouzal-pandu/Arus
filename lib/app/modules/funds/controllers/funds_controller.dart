@@ -34,7 +34,6 @@ class FundsController extends GetxController {
   void _scheduleBind() {
     _debounce?.cancel();
     _debounce = Timer(const Duration(milliseconds: 50), _bindStream);
-    print(fundsList.string);
   }
 
   void _bindStream() {
