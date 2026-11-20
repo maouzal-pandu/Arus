@@ -34,15 +34,50 @@ Widget formInputTypeRow<T>(
 
         return Expanded(
           child: isSelected
-              ? FilledButton.icon(
-                  onPressed: () => onTap,
-                  label: Text(label),
-                  icon: icons == null ? const SizedBox.shrink() : Icon(icon),
+              ? AnimatedContainer(
+                  duration: Duration(milliseconds: 500),
+                  curve: Curves.easeOut,
+                  transform: Matrix4.translationValues(
+                    0,
+                    isSelected ? -3 : 0,
+                    0,
+                  ),
+                  child: FilledButton.icon(
+                    onPressed: () => onTap,
+                    label: Text(label),
+                    icon: icons == null ? const SizedBox.shrink() : Icon(icon),
+                    style: ButtonStyle(
+                      shape: WidgetStatePropertyAll(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadiusGeometry.circular(8),
+                        ),
+                      ),
+                      backgroundColor: WidgetStatePropertyAll(
+                        Colors.grey.shade600,
+                      ),
+                    ),
+                  ),
                 )
-              : OutlinedButton.icon(
-                  onPressed: onTap,
-                  label: Text(label),
-                  icon: icons == null ? const SizedBox.shrink() : Icon(icon),
+              : AnimatedContainer(
+                  duration: Duration(milliseconds: 500),
+                  curve: Curves.easeOut,
+                  transform: Matrix4.translationValues(
+                    0,
+                    isSelected ? -3 : 0,
+                    0,
+                  ),
+                  child: OutlinedButton.icon(
+                    onPressed: onTap,
+                    label: Text(label, style: TextStyle(color: Colors.black)),
+                    icon: icons == null ? const SizedBox.shrink() : Icon(icon),
+                    style: ButtonStyle(
+                      shape: WidgetStatePropertyAll(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadiusGeometry.circular(8),
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
         );
       }),
