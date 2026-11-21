@@ -1,9 +1,13 @@
 import 'package:get/get.dart';
 
+import '../modules/add-category/bindings/add_category_binding.dart';
+import '../modules/add-category/views/add_category_view.dart';
 import '../modules/add-fund/bindings/add_fund_binding.dart';
 import '../modules/add-fund/views/add_fund_view.dart';
 import '../modules/categories/bindings/categories_binding.dart';
 import '../modules/categories/views/categories_view.dart';
+import '../modules/edit-category/bindings/edit_category_binding.dart';
+import '../modules/edit-category/views/edit_category_view.dart';
 import '../modules/edit-fund/bindings/edit_fund_binding.dart';
 import '../modules/edit-fund/views/edit_fund_view.dart';
 import '../modules/funds/bindings/funds_binding.dart';
@@ -51,6 +55,16 @@ class AppPages {
       name: _Paths.EDIT_FUND,
       page: () => const EditFundView(),
       binding: EditFundBinding(),
+    ),
+    GetPage(
+      name: _Paths.EDIT_CATEGORY,
+      page: () => const EditCategoryView(),
+      binding: EditCategoryBinding(),
+    ),
+    GetPage(
+      name: _Paths.ADD_CATEGORY,
+      page: () => const AddCategoryView(),
+      binding: AddCategoryBinding(),
     ),
   ];
 }

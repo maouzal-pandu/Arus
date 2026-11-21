@@ -23,7 +23,15 @@ void main() {
       getPages: AppPages.routes,
       theme: ThemeData(
         textTheme: GoogleFonts.dmSansTextTheme(),
-        appBarTheme: AppBarTheme(backgroundColor: Colors.grey.shade100),
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.grey.shade100,
+          titleTextStyle: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
+          ),
+          centerTitle: false,
+        ),
         scaffoldBackgroundColor: Colors.grey.shade100,
       ),
     ),

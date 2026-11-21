@@ -12,6 +12,8 @@ abstract class Routes {
   static const HISTORY = _Paths.HISTORY;
   static const ADD_FUND = _Paths.ADD_FUND;
   static const EDIT_FUND = _Paths.EDIT_FUND;
+  static const EDIT_CATEGORY = _Paths.EDIT_CATEGORY;
+  static const ADD_CATEGORY = _Paths.ADD_CATEGORY;
 }
 
 abstract class _Paths {
@@ -22,4 +24,6 @@ abstract class _Paths {
   static const HISTORY = '/history';
   static const ADD_FUND = '/add-fund';
   static const EDIT_FUND = '/edit-fund';
+  static const EDIT_CATEGORY = '/edit-category';
+  static const ADD_CATEGORY = '/add-category';
 }
