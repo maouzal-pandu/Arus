@@ -4,22 +4,35 @@ import 'package:get/get.dart';
 Widget formInputFieldCol(String label, Widget inputField) => Column(
   crossAxisAlignment: CrossAxisAlignment.start,
   children: [
-    Text(label, style: TextStyle(fontWeight: FontWeight.bold)),
+    Text(label, style: TextStyle()),
     const SizedBox(height: 8),
     inputField,
   ],
 );
 
-InputDecoration formInputFieldDecoration() => InputDecoration(
-  isDense: true,
-  border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-);
+InputDecoration formInputFieldDecoration({bool isOptional = false}) =>
+    InputDecoration(
+      isDense: true,
+      isCollapsed: true,
+      contentPadding: EdgeInsets.symmetric(vertical: 7.5, horizontal: 4),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8),
+        borderSide: BorderSide(color: Colors.grey),
+      ),
+      helper: isOptional
+          ? const Text(
+              'Optional',
+              style: TextStyle(color: Colors.grey, fontSize: 12),
+            )
+          : null,
+    );
 
 Widget formInputTypeRow<T>(
   Rx<T> selected,
   List<T> values,
   List<String> labels, {
   List<IconData>? icons,
+  List<Color>? colors,
 }) {
   assert(values.length == labels.length);
 
@@ -31,6 +44,7 @@ Widget formInputTypeRow<T>(
         void onTap() => selected.value = values[i];
         final label = labels[i];
         final icon = icons == null ? null : icons[i];
+        final color = colors != null ? colors[i] : null;
 
         return Expanded(
           child: isSelected
@@ -39,12 +53,15 @@ Widget formInputTypeRow<T>(
                   curve: Curves.easeOut,
                   transform: Matrix4.translationValues(
                     0,
-                    isSelected ? -3 : 0,
+                    isSelected ? -5 : 0,
                     0,
                   ),
                   child: FilledButton.icon(
                     onPressed: () => onTap,
-                    label: Text(label),
+                    label: Text(
+                      label,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                     icon: icons == null ? const SizedBox.shrink() : Icon(icon),
                     style: ButtonStyle(
                       shape: WidgetStatePropertyAll(
@@ -53,7 +70,7 @@ Widget formInputTypeRow<T>(
                         ),
                       ),
                       backgroundColor: WidgetStatePropertyAll(
-                        Colors.grey.shade600,
+                        color ?? Colors.deepPurple,
                       ),
                     ),
                   ),
@@ -66,11 +83,20 @@ Widget formInputTypeRow<T>(
                     isSelected ? -3 : 0,
                     0,
                   ),
-                  child: OutlinedButton.icon(
+                  child: FilledButton.icon(
                     onPressed: onTap,
-                    label: Text(label, style: TextStyle(color: Colors.black)),
+                    label: Text(
+                      label,
+                      style: TextStyle(
+                        color: colors != null ? Colors.white : Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                     icon: icons == null ? const SizedBox.shrink() : Icon(icon),
                     style: ButtonStyle(
+                      backgroundColor: WidgetStatePropertyAll(
+                        color ?? Colors.grey.shade300,
+                      ),
                       shape: WidgetStatePropertyAll(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadiusGeometry.circular(8),

@@ -6,5 +6,6 @@ void showSnackbar(bool isTrue, String title, String message) {
     title,
     message,
     backgroundColor: isTrue ? Colors.blue : Colors.red,
+    colorText: const Color(0xffffffff),
   );
 }
