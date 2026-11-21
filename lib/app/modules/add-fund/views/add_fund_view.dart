@@ -72,6 +72,9 @@ class AddFundView extends GetView<AddFundController> {
                       decoration: formInputFieldDecoration(),
                       cursorHeight: 21.5,
                       maxLength: 100,
+                      // inputFormatters: [TitleFormatter()],
+                      textCapitalization: TextCapitalization.sentences,
+
                       buildCounter:
                           (
                             context, {

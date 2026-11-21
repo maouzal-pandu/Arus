@@ -86,6 +86,7 @@ class AddCategoryView extends GetView<AddCategoryController> {
                     'Title',
                     TextFormField(
                       controller: controller.titleC,
+                      textCapitalization: TextCapitalization.sentences,
                       decoration: formInputFieldDecoration(),
                       cursorHeight: 21.5,
                       maxLength: 50,

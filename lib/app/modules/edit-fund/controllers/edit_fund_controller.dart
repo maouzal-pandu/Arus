@@ -61,7 +61,7 @@ class EditFundController extends GetxController {
   Future<void> editFund() async {
     if (!formK.currentState!.validate()) return;
 
-    final title = titleC.text;
+    final title = titleC.text.trim().capitalizeFirst!;
     final amount = int.parse(amountC.text.replaceAll('.', ''));
 
     final result = await _repo.updateFund(
