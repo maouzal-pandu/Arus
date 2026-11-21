@@ -21,8 +21,11 @@ class Views extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Obx(
-        () => IndexedStack(index: controller.pageIndex.value, children: _views),
+      body: SafeArea(
+        child: Obx(
+          () =>
+              IndexedStack(index: controller.pageIndex.value, children: _views),
+        ),
       ),
 
       bottomNavigationBar: Padding(

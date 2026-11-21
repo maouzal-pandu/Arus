@@ -76,7 +76,7 @@ class EditCategoryView extends GetView<EditCategoryController> {
               child: Column(
                 children: [
                   Text(
-                    'Edit Category',
+                    'Update Category',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
 

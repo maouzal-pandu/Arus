@@ -121,33 +121,49 @@ class FundsView extends GetView<FundsController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        // title: const Text('FundsView'), centerTitle: true
-        actions: [
-          IconButton(
-            onPressed: () => Get.toNamed('/add-fund'),
-            icon: const Icon(
-              Icons.add_rounded,
-              color: Colors.blue,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ],
-      ),
+      appBar: AppBar(title: const Text('Funds')),
       body: Obx(
         () => Padding(
           padding: EdgeInsetsGeometry.all(8),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              TextButton.icon(
-                onPressed: () => _showFilter(context),
-                label: Text(
-                  'Filter',
-                  style: TextStyle(color: Colors.grey.shade700),
-                ),
-                icon: Icon(Icons.filter_alt, color: Colors.grey.shade600),
-                style: ButtonStyle(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TextButton.icon(
+                    onPressed: () => _showFilter(context),
+                    label: Text(
+                      'Filter',
+                      style: TextStyle(color: Colors.grey.shade800),
+                    ),
+                    icon: Icon(Icons.filter_alt, color: Colors.grey.shade800),
+                    style: ButtonStyle(),
+                  ),
+
+                  FilledButton.icon(
+                    onPressed: () => Get.toNamed('add-fund'),
+                    label: const Text(
+                      'Add',
+                      style: TextStyle(
+                        color: Colors.white,
+                        // fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    icon: const Icon(
+                      Icons.add_rounded,
+                      color: Colors.white,
+                      // fontWeight: FontWeight.bold,
+                    ),
+                    style: ButtonStyle(
+                      backgroundColor: WidgetStatePropertyAll(Colors.blue),
+                      shape: WidgetStatePropertyAll(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadiusGeometry.circular(24),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
 
               Expanded(

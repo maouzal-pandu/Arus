@@ -26,26 +26,29 @@ class EditFundView extends GetView<EditFundController> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Row(
-            children: [
-              Expanded(
-                child: GestureDetector(
-                  onTap: _onBack,
-                  behavior: HitTestBehavior.opaque,
-                  child: Align(
-                    alignment: AlignmentGeometry.centerLeft,
-                    child: const Icon(Icons.arrow_back_ios, color: Colors.red),
+          automaticallyImplyLeading: false,
+          actions: [
+            GestureDetector(
+              onTap: _onBack,
+              child: Container(
+                height: 30,
+                width: 30,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.red,
+                ),
+                padding: EdgeInsets.all(4),
+                child: Center(
+                  child: const Icon(
+                    Icons.close_rounded,
+                    color: Colors.white,
+                    size: 16,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
-
-              const Text('Edit Fund'),
-
-              const Expanded(child: SizedBox()),
-            ],
-          ),
-          centerTitle: true,
-          automaticallyImplyLeading: false,
+            ),
+          ],
         ),
 
         body: SingleChildScrollView(
@@ -55,6 +58,11 @@ class EditFundView extends GetView<EditFundController> {
               key: controller.formK,
               child: Column(
                 children: [
+                  Text(
+                    'Update Fund',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+
                   const SizedBox(height: 32),
 
                   formInputFieldCol(
@@ -89,10 +97,14 @@ class EditFundView extends GetView<EditFundController> {
                     ),
                   ),
 
-                  formInputTypeRow<FundType>(controller.type, FundType.values, [
-                    'Cash',
-                    'Cashless',
-                  ]),
+                  formInputFieldCol(
+                    'Type',
+                    formInputTypeRow<FundType>(
+                      controller.type,
+                      FundType.values,
+                      ['Cash', 'Cashless'],
+                    ),
+                  ),
 
                   const SizedBox(height: 16),
 
