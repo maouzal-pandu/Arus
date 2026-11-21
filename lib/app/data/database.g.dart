@@ -35,21 +35,6 @@ class $CategoriesTable extends Categories
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _descriptionMeta = const VerificationMeta(
-    'description',
-  );
-  @override
-  late final GeneratedColumn<String> description = GeneratedColumn<String>(
-    'description',
-    aliasedName,
-    true,
-    additionalChecks: GeneratedColumn.checkTextLength(
-      minTextLength: 1,
-      maxTextLength: 500,
-    ),
-    type: DriftSqlType.string,
-    requiredDuringInsert: false,
-  );
   @override
   late final GeneratedColumnWithTypeConverter<CategoryType, int> type =
       GeneratedColumn<int>(
@@ -95,7 +80,6 @@ class $CategoriesTable extends Categories
   List<GeneratedColumn> get $columns => [
     id,
     title,
-    description,
     type,
     icon,
     iconColor,
@@ -123,15 +107,6 @@ class $CategoriesTable extends Categories
       );
     } else if (isInserting) {
       context.missing(_titleMeta);
-    }
-    if (data.containsKey('description')) {
-      context.handle(
-        _descriptionMeta,
-        description.isAcceptableOrUnknown(
-          data['description']!,
-          _descriptionMeta,
-        ),
-      );
     }
     if (data.containsKey('icon')) {
       context.handle(
@@ -168,10 +143,6 @@ class $CategoriesTable extends Categories
         DriftSqlType.string,
         data['${effectivePrefix}title'],
       )!,
-      description: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}description'],
-      ),
       type: $CategoriesTable.$convertertype.fromSql(
         attachedDatabase.typeMapping.read(
           DriftSqlType.int,
@@ -205,7 +176,6 @@ class $CategoriesTable extends Categories
 class Category extends DataClass implements Insertable<Category> {
   final int id;
   final String title;
-  final String? description;
   final CategoryType type;
   final String? icon;
   final int? iconColor;
@@ -213,7 +183,6 @@ class Category extends DataClass implements Insertable<Category> {
   const Category({
     required this.id,
     required this.title,
-    this.description,
     required this.type,
     this.icon,
     this.iconColor,
@@ -224,9 +193,6 @@ class Category extends DataClass implements Insertable<Category> {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
     map['title'] = Variable<String>(title);
-    if (!nullToAbsent || description != null) {
-      map['description'] = Variable<String>(description);
-    }
     {
       map['type'] = Variable<int>($CategoriesTable.$convertertype.toSql(type));
     }
@@ -244,9 +210,6 @@ class Category extends DataClass implements Insertable<Category> {
     return CategoriesCompanion(
       id: Value(id),
       title: Value(title),
-      description: description == null && nullToAbsent
-          ? const Value.absent()
-          : Value(description),
       type: Value(type),
       icon: icon == null && nullToAbsent ? const Value.absent() : Value(icon),
       iconColor: iconColor == null && nullToAbsent
@@ -264,7 +227,6 @@ class Category extends DataClass implements Insertable<Category> {
     return Category(
       id: serializer.fromJson<int>(json['id']),
       title: serializer.fromJson<String>(json['title']),
-      description: serializer.fromJson<String?>(json['description']),
       type: $CategoriesTable.$convertertype.fromJson(
         serializer.fromJson<int>(json['type']),
       ),
@@ -279,7 +241,6 @@ class Category extends DataClass implements Insertable<Category> {
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
       'title': serializer.toJson<String>(title),
-      'description': serializer.toJson<String?>(description),
       'type': serializer.toJson<int>(
         $CategoriesTable.$convertertype.toJson(type),
       ),
@@ -292,7 +253,6 @@ class Category extends DataClass implements Insertable<Category> {
   Category copyWith({
     int? id,
     String? title,
-    Value<String?> description = const Value.absent(),
     CategoryType? type,
     Value<String?> icon = const Value.absent(),
     Value<int?> iconColor = const Value.absent(),
@@ -300,7 +260,6 @@ class Category extends DataClass implements Insertable<Category> {
   }) => Category(
     id: id ?? this.id,
     title: title ?? this.title,
-    description: description.present ? description.value : this.description,
     type: type ?? this.type,
     icon: icon.present ? icon.value : this.icon,
     iconColor: iconColor.present ? iconColor.value : this.iconColor,
@@ -310,9 +269,6 @@ class Category extends DataClass implements Insertable<Category> {
     return Category(
       id: data.id.present ? data.id.value : this.id,
       title: data.title.present ? data.title.value : this.title,
-      description: data.description.present
-          ? data.description.value
-          : this.description,
       type: data.type.present ? data.type.value : this.type,
       icon: data.icon.present ? data.icon.value : this.icon,
       iconColor: data.iconColor.present ? data.iconColor.value : this.iconColor,
@@ -325,7 +281,6 @@ class Category extends DataClass implements Insertable<Category> {
     return (StringBuffer('Category(')
           ..write('id: $id, ')
           ..write('title: $title, ')
-          ..write('description: $description, ')
           ..write('type: $type, ')
           ..write('icon: $icon, ')
           ..write('iconColor: $iconColor, ')
@@ -335,15 +290,13 @@ class Category extends DataClass implements Insertable<Category> {
   }
 
   @override
-  int get hashCode =>
-      Object.hash(id, title, description, type, icon, iconColor, createdAt);
+  int get hashCode => Object.hash(id, title, type, icon, iconColor, createdAt);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is Category &&
           other.id == this.id &&
           other.title == this.title &&
-          other.description == this.description &&
           other.type == this.type &&
           other.icon == this.icon &&
           other.iconColor == this.iconColor &&
@@ -353,7 +306,6 @@ class Category extends DataClass implements Insertable<Category> {
 class CategoriesCompanion extends UpdateCompanion<Category> {
   final Value<int> id;
   final Value<String> title;
-  final Value<String?> description;
   final Value<CategoryType> type;
   final Value<String?> icon;
   final Value<int?> iconColor;
@@ -361,7 +313,6 @@ class CategoriesCompanion extends UpdateCompanion<Category> {
   const CategoriesCompanion({
     this.id = const Value.absent(),
     this.title = const Value.absent(),
-    this.description = const Value.absent(),
     this.type = const Value.absent(),
     this.icon = const Value.absent(),
     this.iconColor = const Value.absent(),
@@ -370,7 +321,6 @@ class CategoriesCompanion extends UpdateCompanion<Category> {
   CategoriesCompanion.insert({
     this.id = const Value.absent(),
     required String title,
-    this.description = const Value.absent(),
     required CategoryType type,
     this.icon = const Value.absent(),
     this.iconColor = const Value.absent(),
@@ -380,7 +330,6 @@ class CategoriesCompanion extends UpdateCompanion<Category> {
   static Insertable<Category> custom({
     Expression<int>? id,
     Expression<String>? title,
-    Expression<String>? description,
     Expression<int>? type,
     Expression<String>? icon,
     Expression<int>? iconColor,
@@ -389,7 +338,6 @@ class CategoriesCompanion extends UpdateCompanion<Category> {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (title != null) 'title': title,
-      if (description != null) 'description': description,
       if (type != null) 'type': type,
       if (icon != null) 'icon': icon,
       if (iconColor != null) 'icon_color': iconColor,
@@ -400,7 +348,6 @@ class CategoriesCompanion extends UpdateCompanion<Category> {
   CategoriesCompanion copyWith({
     Value<int>? id,
     Value<String>? title,
-    Value<String?>? description,
     Value<CategoryType>? type,
     Value<String?>? icon,
     Value<int?>? iconColor,
@@ -409,7 +356,6 @@ class CategoriesCompanion extends UpdateCompanion<Category> {
     return CategoriesCompanion(
       id: id ?? this.id,
       title: title ?? this.title,
-      description: description ?? this.description,
       type: type ?? this.type,
       icon: icon ?? this.icon,
       iconColor: iconColor ?? this.iconColor,
@@ -425,9 +371,6 @@ class CategoriesCompanion extends UpdateCompanion<Category> {
     }
     if (title.present) {
       map['title'] = Variable<String>(title.value);
-    }
-    if (description.present) {
-      map['description'] = Variable<String>(description.value);
     }
     if (type.present) {
       map['type'] = Variable<int>(
@@ -451,7 +394,6 @@ class CategoriesCompanion extends UpdateCompanion<Category> {
     return (StringBuffer('CategoriesCompanion(')
           ..write('id: $id, ')
           ..write('title: $title, ')
-          ..write('description: $description, ')
           ..write('type: $type, ')
           ..write('icon: $icon, ')
           ..write('iconColor: $iconColor, ')
@@ -1780,7 +1722,6 @@ abstract class _$AppDatabase extends GeneratedDatabase {
 typedef $$CategoriesTableCreateCompanionBuilder = CategoriesCompanion Function({
   Value<int> id,
   required String title,
-  Value<String?> description,
   required CategoryType type,
   Value<String?> icon,
   Value<int?> iconColor,
@@ -1789,7 +1730,6 @@ typedef $$CategoriesTableCreateCompanionBuilder = CategoriesCompanion Function({
 typedef $$CategoriesTableUpdateCompanionBuilder = CategoriesCompanion Function({
   Value<int> id,
   Value<String> title,
-  Value<String?> description,
   Value<CategoryType> type,
   Value<String?> icon,
   Value<int?> iconColor,
@@ -1837,11 +1777,6 @@ class $$CategoriesTableFilterComposer
 
   ColumnFilters<String> get title => $composableBuilder(
     column: $table.title,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get description => $composableBuilder(
-    column: $table.description,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -1911,11 +1846,6 @@ class $$CategoriesTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
-  ColumnOrderings<String> get description => $composableBuilder(
-    column: $table.description,
-    builder: (column) => ColumnOrderings(column),
-  );
-
   ColumnOrderings<int> get type => $composableBuilder(
     column: $table.type,
     builder: (column) => ColumnOrderings(column),
@@ -1951,11 +1881,6 @@ class $$CategoriesTableAnnotationComposer
 
   GeneratedColumn<String> get title =>
       $composableBuilder(column: $table.title, builder: (column) => column);
-
-  GeneratedColumn<String> get description => $composableBuilder(
-    column: $table.description,
-    builder: (column) => column,
-  );
 
   GeneratedColumnWithTypeConverter<CategoryType, int> get type =>
       $composableBuilder(column: $table.type, builder: (column) => column);
@@ -2025,7 +1950,6 @@ class $$CategoriesTableTableManager
               ({
                 Value<int> id = const Value.absent(),
                 Value<String> title = const Value.absent(),
-                Value<String?> description = const Value.absent(),
                 Value<CategoryType> type = const Value.absent(),
                 Value<String?> icon = const Value.absent(),
                 Value<int?> iconColor = const Value.absent(),
@@ -2033,7 +1957,6 @@ class $$CategoriesTableTableManager
               }) => CategoriesCompanion(
                 id: id,
                 title: title,
-                description: description,
                 type: type,
                 icon: icon,
                 iconColor: iconColor,
@@ -2043,7 +1966,6 @@ class $$CategoriesTableTableManager
               ({
                 Value<int> id = const Value.absent(),
                 required String title,
-                Value<String?> description = const Value.absent(),
                 required CategoryType type,
                 Value<String?> icon = const Value.absent(),
                 Value<int?> iconColor = const Value.absent(),
@@ -2051,7 +1973,6 @@ class $$CategoriesTableTableManager
               }) => CategoriesCompanion.insert(
                 id: id,
                 title: title,
-                description: description,
                 type: type,
                 icon: icon,
                 iconColor: iconColor,

@@ -16,9 +16,8 @@ class CategoryRepo {
   // CREATE
   Future<bool> createCategory({
     required String title,
-    String? description,
     required CategoryType type,
-    IconData? icon,
+    String? icon,
     Color? iconColor,
   }) async {
     final result = await _db
@@ -27,8 +26,7 @@ class CategoryRepo {
           CategoriesCompanion.insert(
             title: title,
             type: type,
-            description: Value(description),
-            icon: Value(icon?.toString()),
+            icon: Value(icon),
             iconColor: Value(iconColor?.toARGB32()),
           ),
         );
@@ -69,10 +67,9 @@ class CategoryRepo {
   Future<bool> updateCategory({
     required int id,
     String? title,
-    Value<String?> description = const Value.absent(),
     CategoryType? type,
-    Value<String?> icon = const Value.absent(),
-    Value<int?> iconColor = const Value.absent(),
+    String? icon,
+    Color? iconColor,
   }) async {
     final row =
         await (_db.update(
@@ -81,9 +78,8 @@ class CategoryRepo {
           CategoriesCompanion(
             title: title == null ? const Value.absent() : Value(title),
             type: type == null ? const Value.absent() : Value(type),
-            description: description,
-            icon: icon,
-            iconColor: iconColor,
+            icon: Value(icon),
+            iconColor: Value(iconColor?.toARGB32()),
           ),
         );
     return row > 0;
