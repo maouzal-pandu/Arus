@@ -8,7 +8,7 @@ Widget amountFundRow(int amount) {
   return Row(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      const Text('Rp', style: TextStyle(color: Colors.grey, fontSize: 10)),
+      const Text('Rp.', style: TextStyle(color: Colors.grey, fontSize: 10)),
       Text(formattedAmount),
     ],
   );
