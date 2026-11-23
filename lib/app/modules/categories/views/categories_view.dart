@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:money_tracker/app/components/section_options.dart';
+import 'package:money_tracker/app/core/theme/app_colors.dart';
 import 'package:money_tracker/app/data/repos/category_repo.dart';
 import 'package:money_tracker/app/data/schemas/categories_schema.dart';
 import 'package:money_tracker/app/helper/category_icon.dart';
@@ -191,7 +192,9 @@ class CategoriesView extends GetView<CategoriesController> {
                           final c = controller.categoryList[index];
 
                           final isIncome = c.type == CategoryType.income;
-                          final accent = isIncome ? Colors.teal : Colors.orange;
+                          final accent = isIncome
+                              ? AppColors.income
+                              : AppColors.expense;
 
                           return Dismissible(
                             key: Key(c.id.toString()),
@@ -242,8 +245,8 @@ class CategoriesView extends GetView<CategoriesController> {
                                               fontWeight: FontWeight.bold,
                                               color:
                                                   c.type == CategoryType.income
-                                                  ? Colors.teal
-                                                  : Colors.orange,
+                                                  ? AppColors.income
+                                                  : AppColors.expense,
                                             ),
                                           ),
                                         ],

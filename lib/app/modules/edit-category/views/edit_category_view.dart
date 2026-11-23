@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:money_tracker/app/components/data_form.dart';
+import 'package:money_tracker/app/core/theme/app_colors.dart';
 import 'package:money_tracker/app/data/schemas/categories_schema.dart';
 import 'package:money_tracker/app/helper/category_icon.dart';
 
@@ -127,7 +128,7 @@ class EditCategoryView extends GetView<EditCategoryController> {
                         controller.type,
                         CategoryType.values,
                         ['Income', 'Expense'],
-                        colors: [Colors.teal, Colors.orange],
+                        colors: [AppColors.income, AppColors.expense],
                       ),
                     ],
                   ),

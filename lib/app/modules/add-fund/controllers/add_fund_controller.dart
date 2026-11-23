@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:money_tracker/app/components/snackbar.dart';
 import 'package:money_tracker/app/data/repos/fund_repo.dart';
 import 'package:money_tracker/app/data/schemas/funds_schema.dart';
+import 'package:money_tracker/app/helper/string_helper.dart';
 
 class AddFundController extends GetxController {
   final _repo = Get.find<FundRepo>();
@@ -46,7 +47,7 @@ class AddFundController extends GetxController {
   Future<void> createFund() async {
     if (!formK.currentState!.validate()) return;
 
-    final title = titleC.text.trim().capitalizeFirst!;
+    final title = titleC.text.trim().upperFirst;
     final amount = int.parse(amountC.text.replaceAll('.', ''));
 
     final result = await _repo.createFund(

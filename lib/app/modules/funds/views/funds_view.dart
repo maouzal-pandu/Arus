@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:money_tracker/app/components/currency.dart';
 import 'package:money_tracker/app/components/section_options.dart';
+import 'package:money_tracker/app/core/theme/app_colors.dart';
 import 'package:money_tracker/app/data/repos/fund_repo.dart';
 import 'package:money_tracker/app/data/schemas/funds_schema.dart';
 
@@ -166,6 +167,8 @@ class FundsView extends GetView<FundsController> {
                 ],
               ),
 
+              const SizedBox(height: 4),
+
               Expanded(
                 child: controller.fundsList.isNotEmpty
                     ? ListView.builder(
@@ -177,6 +180,11 @@ class FundsView extends GetView<FundsController> {
                             FundType.digital => 'Cashless',
                           };
 
+                          final color = switch (f.type) {
+                            FundType.cash => AppColors.cash,
+                            FundType.digital => AppColors.cashless,
+                          };
+
                           return Dismissible(
                             key: Key(f.id.toString()),
                             direction: DismissDirection.endToStart,
@@ -185,8 +193,21 @@ class FundsView extends GetView<FundsController> {
                             child: GestureDetector(
                               onTap: () =>
                                   Get.toNamed('/edit-fund', arguments: f),
-                              child: Card(
-                                color: Colors.white,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  border: Border.all(color: color),
+                                  borderRadius: BorderRadius.circular(12),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withAlpha(100),
+                                      blurRadius: 0.5,
+                                      spreadRadius: 2,
+                                      offset: Offset(1, 1),
+                                    ),
+                                  ],
+                                ),
+                                margin: EdgeInsets.only(bottom: 8),
                                 child: Padding(
                                   padding: const EdgeInsets.all(16),
                                   child: Column(
@@ -205,7 +226,8 @@ class FundsView extends GetView<FundsController> {
                                         getType(),
                                         style: TextStyle(
                                           fontSize: 11,
-                                          color: Colors.grey,
+                                          color: color,
+                                          fontWeight: FontWeight.bold,
                                         ),
                                       ),
                                     ],

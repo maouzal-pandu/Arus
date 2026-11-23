@@ -5,6 +5,7 @@ import 'package:money_tracker/app/components/snackbar.dart';
 import 'package:money_tracker/app/data/database.dart';
 import 'package:money_tracker/app/data/repos/fund_repo.dart';
 import 'package:money_tracker/app/data/schemas/funds_schema.dart';
+import 'package:money_tracker/app/helper/string_helper.dart';
 
 class EditFundController extends GetxController {
   late Fund fund;
@@ -61,7 +62,7 @@ class EditFundController extends GetxController {
   Future<void> editFund() async {
     if (!formK.currentState!.validate()) return;
 
-    final title = titleC.text.trim().capitalizeFirst!;
+    final title = titleC.text.trim().upperFirst;
     final amount = int.parse(amountC.text.replaceAll('.', ''));
 
     final result = await _repo.updateFund(

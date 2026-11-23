@@ -57,7 +57,6 @@ class CategoriesController extends GetxController {
   void _scheduleBind() {
     _debounce?.cancel();
     Timer(Duration(milliseconds: 50), () => bindCategories());
-    print(categoryList);
   }
 
   void bindCategories() {

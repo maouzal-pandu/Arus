@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:money_tracker/app/components/data_form.dart';
+import 'package:money_tracker/app/core/theme/app_colors.dart';
 import 'package:money_tracker/app/data/schemas/funds_schema.dart';
 import 'package:money_tracker/app/helper/rupiah_formatter.dart';
 
@@ -105,15 +106,13 @@ class AddFundView extends GetView<AddFundController> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     spacing: 8,
                     children: [
-                      const Text(
-                        'Type',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
+                      const Text('Type'),
 
                       formInputTypeRow<FundType>(
                         controller.type,
                         FundType.values,
                         ['Cash', 'Cashless'],
+                        colors: [AppColors.income, AppColors.cashless],
                       ),
                     ],
                   ),
