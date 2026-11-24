@@ -31,6 +31,8 @@ void main() {
             color: Colors.black,
           ),
           centerTitle: false,
+          actionsPadding: EdgeInsets.only(right: 8),
+          surfaceTintColor: Colors.transparent,
         ),
         scaffoldBackgroundColor: Colors.grey.shade100,
       ),

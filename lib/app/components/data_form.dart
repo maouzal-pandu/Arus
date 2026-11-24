@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:money_tracker/app/data/database.dart';
+import 'package:money_tracker/app/data/schemas/funds_schema.dart';
+import 'package:money_tracker/app/helper/category_icon.dart';
 
 Widget formInputFieldCol(String label, Widget inputField) => Column(
   crossAxisAlignment: CrossAxisAlignment.start,
@@ -12,9 +15,7 @@ Widget formInputFieldCol(String label, Widget inputField) => Column(
 
 InputDecoration formInputFieldDecoration({bool isOptional = false}) =>
     InputDecoration(
-      isDense: true,
-      isCollapsed: true,
-      contentPadding: EdgeInsets.symmetric(vertical: 7.5, horizontal: 4),
+      // contentPadding: EdgeInsets.symmetric(vertical: 7.5, horizontal: 4),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8),
         borderSide: BorderSide(color: Colors.grey),
@@ -109,4 +110,15 @@ Widget formInputTypeRow<T>(
       }),
     ),
   );
+}
+
+Widget buildFundType(FundType t) => t == FundType.cash
+    ? const Icon(Icons.payments_rounded, color: Colors.green)
+    : const Icon(Icons.credit_card, color: Colors.blue);
+
+Widget buildCategoryType(Category c) {
+  final color = c.iconColor != null ? Color(c.iconColor!) : Colors.grey;
+  final icon = iconFromKey(c.icon) ?? Icons.category_rounded;
+
+  return Icon(icon, color: color);
 }

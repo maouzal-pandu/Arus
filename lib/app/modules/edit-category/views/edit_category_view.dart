@@ -44,7 +44,7 @@ class EditCategoryView extends GetView<EditCategoryController> {
         appBar: AppBar(
           // title: const Text('AddCategoryView'),
           automaticallyImplyLeading: false,
-          actionsPadding: EdgeInsets.only(right: 8),
+          // actionsPadding: EdgeInsets.only(right: 8),
           actions: [
             GestureDetector(
               onTap: _onBack,

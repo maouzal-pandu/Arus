@@ -44,7 +44,7 @@ class AddCategoryView extends GetView<AddCategoryController> {
         appBar: AppBar(
           // title: Text('Add Category'),
           automaticallyImplyLeading: false,
-          actionsPadding: EdgeInsets.only(right: 8),
+          // actionsPadding: EdgeInsets.only(right: 8),
           actions: [
             GestureDetector(
               onTap: _onBack,

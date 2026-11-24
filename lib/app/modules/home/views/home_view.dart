@@ -1,3 +1,4 @@
+import 'dart:math' as math;
 import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
@@ -85,7 +86,7 @@ class Views extends GetView<HomeController> {
                         child: _fabOption(
                           icon: Icons.arrow_downward_rounded,
                           color: AppColors.income,
-                          onTap: () => Get.toNamed('/add-expense'),
+                          onTap: () => Get.toNamed('/add-income-transaction'),
                         ),
                       ),
                     ),
@@ -108,7 +109,7 @@ class Views extends GetView<HomeController> {
                         child: _fabOption(
                           icon: Icons.arrow_upward_rounded,
                           color: AppColors.expense,
-                          onTap: () => Get.toNamed('/add-expense'),
+                          onTap: () => Get.toNamed('/add-expense-transaction'),
                         ),
                       ),
                     ),
@@ -131,7 +132,7 @@ class Views extends GetView<HomeController> {
                         child: _fabOption(
                           icon: Icons.swap_vert_rounded,
                           color: AppColors.transfer,
-                          onTap: () => Get.toNamed('/add-expense'),
+                          onTap: () => Get.toNamed('/add-transfer-transaction'),
                         ),
                       ),
                     ),
@@ -164,22 +165,24 @@ class Views extends GetView<HomeController> {
 
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
 
-      bottomNavigationBar: BottomAppBar(
-        color: Colors.blueGrey.shade900,
-        shape: const CircularNotchedRectangle(),
-        notchMargin: 8, // jarak lekukan ke FAB
-        height: 65,
-        padding: EdgeInsets.zero,
-        child: Obx(
-          () => Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              _iconNavigationButton(0, CupertinoIcons.home),
-              _iconNavigationButton(1, Icons.wallet_rounded),
-              const SizedBox(width: 48), // ruang kosong buat FAB
-              _iconNavigationButton(2, Icons.category_rounded),
-              _iconNavigationButton(3, Icons.history_rounded),
-            ],
+      bottomNavigationBar: ClipPath(
+        clipper: const _NotchClipper(),
+        child: Material(
+          color: Colors.blueGrey.shade900,
+          child: SizedBox(
+            height: 65,
+            child: Obx(
+              () => Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  _iconNavigationButton(0, CupertinoIcons.home),
+                  _iconNavigationButton(1, Icons.wallet_rounded),
+                  const SizedBox(width: 48),
+                  _iconNavigationButton(2, Icons.category_rounded),
+                  _iconNavigationButton(3, Icons.history_rounded),
+                ],
+              ),
+            ),
           ),
         ),
       ),
@@ -250,4 +253,63 @@ class HomeView extends GetView<HomeController> {
       ),
     );
   }
+}
+
+// import 'dart:math' as math;
+
+class _NotchClipper extends CustomClipper<Path> {
+  const _NotchClipper({
+    this.radius = 36, // radius FAB 28 + jarak 8, dipakai merata di semua sisi
+    this.fillet = 14, // kehalusan sudut pertemuan notch dan sisi atas
+  });
+
+  final double radius;
+  final double fillet;
+
+  @override
+  Path getClip(Size size) {
+    final cx = size.width / 2;
+    final r = radius;
+    final f = fillet;
+
+    // pusat fillet ada di (cx ± dx, f), bersinggungan dengan garis y=0
+    // dan lingkaran notch (pusat (cx, 0), radius r)
+    final dx = math.sqrt(r * r + 2 * r * f);
+
+    // titik singgung fillet dengan lingkaran notch
+    final tx = dx * r / (r + f);
+    final ty = f * r / (r + f);
+
+    final path = Path()
+      ..moveTo(0, 0)
+      ..lineTo(cx - dx, 0)
+      // fillet kiri
+      ..arcToPoint(
+        Offset(cx - tx, ty),
+        radius: Radius.circular(f),
+        clockwise: true,
+      )
+      // lingkaran notch, pusatnya sama dengan pusat FAB
+      ..arcToPoint(
+        Offset(cx + tx, ty),
+        radius: Radius.circular(r),
+        clockwise: false,
+      )
+      // fillet kanan
+      ..arcToPoint(
+        Offset(cx + dx, 0),
+        radius: Radius.circular(f),
+        clockwise: true,
+      )
+      ..lineTo(size.width, 0)
+      ..lineTo(size.width, size.height)
+      ..lineTo(0, size.height)
+      ..close();
+
+    return path;
+  }
+
+  @override
+  bool shouldReclip(_NotchClipper old) =>
+      old.radius != radius || old.fillet != fillet;
 }

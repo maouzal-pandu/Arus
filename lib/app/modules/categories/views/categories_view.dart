@@ -224,9 +224,10 @@ class CategoriesView extends GetView<CategoriesController> {
                                   child: Row(
                                     children: [
                                       Icon(
-                                        iconFromKey(c.icon),
+                                        iconFromKey(c.icon) ??
+                                            Icons.category_rounded,
                                         color: c.iconColor == null
-                                            ? Colors.black
+                                            ? Colors.grey
                                             : Color(c.iconColor!),
                                       ),
 
