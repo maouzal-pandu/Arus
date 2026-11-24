@@ -63,6 +63,18 @@ class CategoryRepo {
         .watch();
   }
 
+  Future<List<Category>> getCategories([CategoryType? type]) {
+    final query = _db.select(_db.categories);
+
+    if (type != null) {
+      query.where((u) => u.type.equalsValue(type));
+    }
+
+    query.orderBy([(u) => OrderingTerm.asc(u.title)]);
+
+    return query.get();
+  }
+
   // UPDATE
   Future<bool> updateCategory({
     required int id,

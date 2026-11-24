@@ -58,6 +58,10 @@ class FundRepo {
         .watch();
   }
 
+  Future<List<Fund>> getFunds() async => (_db.select(
+    _db.funds,
+  )..orderBy([(u) => OrderingTerm.asc(u.title)])).get();
+
   // UPDATE
   Future<bool> updateFund({
     required int id,
