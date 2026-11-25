@@ -12,8 +12,8 @@ class TransactionItems extends Table {
   IntColumn get pcs => integer()();
   IntColumn get price => integer()();
   IntColumn get total => integer().generatedAs(pcs * price, stored: true)();
-  DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
-  DateTimeColumn get updatedAt => dateTime().withDefault(currentDateAndTime)();
+  // DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
+  // DateTimeColumn get updatedAt => dateTime().withDefault(currentDateAndTime)();
 
   @override
   List<String> get customConstraints => [
