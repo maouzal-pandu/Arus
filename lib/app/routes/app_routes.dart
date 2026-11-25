@@ -14,6 +14,9 @@ abstract class Routes {
   static const EDIT_FUND = _Paths.EDIT_FUND;
   static const EDIT_CATEGORY = _Paths.EDIT_CATEGORY;
   static const ADD_CATEGORY = _Paths.ADD_CATEGORY;
+  static const ADD_INCOME_TRANSACTION = _Paths.ADD_INCOME_TRANSACTION;
+  static const ADD_EXPENSE_TRANSACTION = _Paths.ADD_EXPENSE_TRANSACTION;
+  static const ADD_TRANSFER_TRANSACTION = _Paths.ADD_TRANSFER_TRANSACTION;
 }
 
 abstract class _Paths {
@@ -26,4 +29,7 @@ abstract class _Paths {
   static const EDIT_FUND = '/edit-fund';
   static const EDIT_CATEGORY = '/edit-category';
   static const ADD_CATEGORY = '/add-category';
+  static const ADD_INCOME_TRANSACTION = '/add-income-transaction';
+  static const ADD_EXPENSE_TRANSACTION = '/add-expense-transaction';
+  static const ADD_TRANSFER_TRANSACTION = '/add-transfer-transaction';
 }

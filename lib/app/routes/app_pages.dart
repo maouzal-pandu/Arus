@@ -2,8 +2,14 @@ import 'package:get/get.dart';
 
 import '../modules/add-category/bindings/add_category_binding.dart';
 import '../modules/add-category/views/add_category_view.dart';
+import '../modules/add-expense-transaction/bindings/add_expense_transaction_binding.dart';
+import '../modules/add-expense-transaction/views/add_expense_transaction_view.dart';
 import '../modules/add-fund/bindings/add_fund_binding.dart';
 import '../modules/add-fund/views/add_fund_view.dart';
+import '../modules/add-income-transaction/bindings/add_income_transaction_binding.dart';
+import '../modules/add-income-transaction/views/add_income_transaction_view.dart';
+import '../modules/add-transfer-transaction/bindings/add_transfer_transaction_binding.dart';
+import '../modules/add-transfer-transaction/views/add_transfer_transaction_view.dart';
 import '../modules/categories/bindings/categories_binding.dart';
 import '../modules/categories/views/categories_view.dart';
 import '../modules/edit-category/bindings/edit_category_binding.dart';
@@ -65,6 +71,21 @@ class AppPages {
       name: _Paths.ADD_CATEGORY,
       page: () => const AddCategoryView(),
       binding: AddCategoryBinding(),
+    ),
+    GetPage(
+      name: _Paths.ADD_INCOME_TRANSACTION,
+      page: () => const AddIncomeTransactionView(),
+      binding: AddIncomeTransactionBinding(),
+    ),
+    GetPage(
+      name: _Paths.ADD_EXPENSE_TRANSACTION,
+      page: () => const AddExpenseTransactionView(),
+      binding: AddExpenseTransactionBinding(),
+    ),
+    GetPage(
+      name: _Paths.ADD_TRANSFER_TRANSACTION,
+      page: () => const AddTransferTransactionView(),
+      binding: AddTransferTransactionBinding(),
     ),
   ];
 }
