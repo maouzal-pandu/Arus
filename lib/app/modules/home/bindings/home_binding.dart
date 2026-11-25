@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:money_tracker/app/modules/categories/controllers/categories_controller.dart';
 import 'package:money_tracker/app/modules/funds/controllers/funds_controller.dart';
+import 'package:money_tracker/app/modules/history/controllers/history_controller.dart';
 
 import '../controllers/home_controller.dart';
 
@@ -10,5 +11,6 @@ class HomeBinding extends Bindings {
     Get.lazyPut<HomeController>(() => HomeController());
     Get.lazyPut<FundsController>(() => FundsController());
     Get.lazyPut<CategoriesController>(() => CategoriesController());
+    Get.lazyPut<HistoryController>(() => HistoryController());
   }
 }
